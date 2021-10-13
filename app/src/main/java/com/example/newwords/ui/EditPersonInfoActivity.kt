@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.Toast
 import com.example.newwords.R
 import com.example.newwords.databinding.ActivityEditPersonBinding
-import com.example.newwords.domain.PersonModel
-import com.example.newwords.impl.PersonDB
+import com.example.newwords.domain.PersonEntity
+import com.example.newwords.server.PersonDB
 import com.example.newwords.impl.util.app
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.google.android.material.snackbar.Snackbar
@@ -29,18 +29,18 @@ class EditPersonInfoActivity : MvpAppCompatActivity(), EditPersonContract.View {
 
     private fun initView() = with(binding){
         btnRegistration.setOnClickListener {
-            gatherPeron()?.let { personModel ->
-                if (presenter.onLimitedString(personModel)) {
-                    presenter.onFight(personModel)
+            gatherPeron()?.let { personEntity ->
+                if (presenter.onLimitedString(personEntity)) {
+                    presenter.onFight(personEntity)
                     if (agePerson.text.toString().toInt() > BIG_AGE) setAgeError(ERROR_AGE)
                 }
             }
         }
     }
 
-    private fun gatherPeron(): PersonModel? = with(binding) {
+    private fun gatherPeron(): PersonEntity? = with(binding) {
         if (checkTheIsEmptyEdit()) {
-            return PersonModel(ID,
+            return PersonEntity(ID,
                 namePerson.text.toString(),
                 agePerson.text.toString().toInt(),
                 powerPerson.text.toString().toInt()
@@ -51,9 +51,9 @@ class EditPersonInfoActivity : MvpAppCompatActivity(), EditPersonContract.View {
     }
 
     private fun checkTheIsEmptyEdit() = with(binding) {
-        namePerson.text.toString().isNotEmpty() &&
-            agePerson.text.toString().isNotEmpty() &&
-            powerPerson.text.toString().isNotEmpty()
+        namePerson.text.toString().isNotBlank() &&
+            agePerson.text.toString().isNotBlank() &&
+            powerPerson.text.toString().isNotBlank()
     }
 
     override fun setState(state: EditPersonContract.ViewState) = with(binding) {
@@ -82,7 +82,7 @@ class EditPersonInfoActivity : MvpAppCompatActivity(), EditPersonContract.View {
         progressBar.visibility = View.GONE
     }
 
-    override fun setPerson(personModel: PersonModel) = with(binding) {
+    override fun setPerson(personModel: PersonEntity) = with(binding) {
         namePerson.setText(personModel.name)
         agePerson.setText(personModel.age.toString())
         powerPerson.setText(personModel.power.toString())
@@ -121,7 +121,7 @@ class EditPersonInfoActivity : MvpAppCompatActivity(), EditPersonContract.View {
     }
 
     companion object {
-        const val ID = 0
+        const val ID = "0"
         const val ERROR_AGE = 1
         const val BIG_AGE = 110
         const val BIG_AGE_BY_CODE = 1
