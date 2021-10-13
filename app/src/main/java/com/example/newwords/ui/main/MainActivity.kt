@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val PERSON_EDIT_KEY = "person_key"
+        private const val PERSON_EDIT_KEY = "person_keys"
 
         fun createLauncherIntent(context: Context, personModel: PersonModel?) : Intent {
             val intent = Intent(context, MainActivity::class.java)
