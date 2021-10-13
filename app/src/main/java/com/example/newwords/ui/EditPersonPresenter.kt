@@ -4,21 +4,21 @@ import android.os.Handler
 import android.os.Looper
 import com.github.terrakok.cicerone.Router
 import com.example.newwords.Screens
-import com.example.newwords.domain.PersonModel
-import com.example.newwords.impl.PersonDB
+import com.example.newwords.domain.PersonEntity
+import com.example.newwords.server.PersonDB
 
 class EditPersonPresenter(
     private val personsGames: PersonDB,
     private val router: Router
     ) : EditPersonContract.Presenter() {
 
-    override fun onFight(personModel: PersonModel) {
+    override fun onFight(personModel: PersonEntity) {
         viewState.setState(EditPersonContract.ViewState.LOADING)
         Handler(Looper.getMainLooper()).postDelayed(
             {onCheckFight(personModel)}, ONE_SECOND)
     }
 
-    override fun onCheckFight(personModel: PersonModel) {
+    override fun onCheckFight(personModel: PersonEntity) {
         var bestPower = IM_WIN
         for (botBestPower in personsGames.getAllPerson()) {
             if (botBestPower.power >= personModel.power) bestPower = BOT_WIN
@@ -26,7 +26,7 @@ class EditPersonPresenter(
         onResultFight(bestPower, personModel)
     }
 
-    override fun onResultFight(resultFight: Int, personModel: PersonModel) {
+    override fun onResultFight(resultFight: Int, personModel: PersonEntity) {
         if (resultFight == IM_WIN) {
             viewState.setState(EditPersonContract.ViewState.SUCCESS)
         // для самописного cicerone
@@ -38,7 +38,7 @@ class EditPersonPresenter(
         else viewState.setState(EditPersonContract.ViewState.DEFEAT)
     }
 
-    override fun onLimitedString(personModel: PersonModel): Boolean {
+    override fun onLimitedString(personModel: PersonEntity): Boolean {
         if (personModel.name.length > LENGTH_STRING || personModel.age > LENGTH_AGE || personModel.power > LENGTH_POWER) {
             viewState.setState(EditPersonContract.ViewState.ERROR)
             return false

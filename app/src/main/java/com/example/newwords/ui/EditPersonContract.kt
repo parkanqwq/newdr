@@ -1,11 +1,10 @@
 package com.example.newwords.ui
 
-import com.example.newwords.domain.PersonModel
+import com.example.newwords.domain.PersonEntity
 import moxy.MvpPresenter
 import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEnd
 import moxy.viewstate.strategy.alias.AddToEndSingle
-import moxy.viewstate.strategy.alias.Skip
 
 class EditPersonContract {
 
@@ -17,7 +16,7 @@ class EditPersonContract {
         @AddToEnd
         fun setState(state: ViewState)
         @AddToEnd
-        fun setPerson(personModel: PersonModel)
+        fun setPerson(personModel: PersonEntity)
         @AddToEndSingle
         fun setAgeError(errorCode: Int)
         // самодельный класс cicerone
@@ -28,9 +27,9 @@ class EditPersonContract {
     }
 
     abstract class Presenter : MvpPresenter<View>() {
-        abstract fun onFight(personModel: PersonModel)
-        abstract fun onCheckFight(personModel: PersonModel)
-        abstract fun onResultFight(resultFight: Int, personModel: PersonModel)
-        abstract fun onLimitedString(personModel: PersonModel) : Boolean
+        abstract fun onFight(personModel: PersonEntity)
+        abstract fun onCheckFight(personModel: PersonEntity)
+        abstract fun onResultFight(resultFight: Int, personModel: PersonEntity)
+        abstract fun onLimitedString(personModel: PersonEntity) : Boolean
     }
 }
