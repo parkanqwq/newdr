@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initView()
+        //test
     }
 
     private fun initView() = with(binding){
